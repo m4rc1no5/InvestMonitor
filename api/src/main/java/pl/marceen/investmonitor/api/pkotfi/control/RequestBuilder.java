@@ -11,7 +11,7 @@ public class RequestBuilder {
     private static final Logger logger = LoggerFactory.getLogger(RequestBuilder.class);
 
     public Request build(String url) {
-        logger.info("Building request for url: {}", url);
+        logger.debug("Building request for url: {}", url);
 
         return new Request.Builder()
                 .url(url)

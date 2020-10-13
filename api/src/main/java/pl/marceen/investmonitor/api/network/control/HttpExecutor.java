@@ -18,16 +18,16 @@ public class HttpExecutor<T> {
     private static final Logger logger = LoggerFactory.getLogger(HttpExecutor.class);
 
     public T execute(Class<T> clazz, OkHttpClient client, Request request) throws NetworkException {
-        logger.info("START");
+        logger.debug("START");
 
         Response response = getResponse(client, request);
         String responseAsString = getResponseAsString(response.body());
         logger.debug("Raw response: {}", responseAsString);
 
-        logger.info("Try to convert response to object class {}", clazz.getSimpleName());
+        logger.debug("Try to convert response to object class {}", clazz.getSimpleName());
         T result = getResult(responseAsString, clazz);
 
-        logger.info("STOP");
+        logger.debug("STOP");
 
         return result;
     }
@@ -51,7 +51,7 @@ public class HttpExecutor<T> {
     }
 
     private Response getResponse(OkHttpClient client, Request request) throws NetworkException {
-        logger.info("Try to get Response...");
+        logger.debug("Try to get Response...");
 
         try {
             return client.newCall(request).execute();
@@ -61,7 +61,7 @@ public class HttpExecutor<T> {
     }
 
     private String getResponseAsString(ResponseBody responseBody) throws NetworkException {
-        logger.info("Try to convert response body to String...");
+        logger.debug("Try to convert response body to String...");
 
         if (responseBody == null) {
             throw NetworkException.noAnswer(logger);

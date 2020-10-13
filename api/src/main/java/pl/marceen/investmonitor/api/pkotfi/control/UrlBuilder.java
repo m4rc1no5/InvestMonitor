@@ -36,7 +36,7 @@ public class UrlBuilder {
                 .addQueryParameter("unit", "A")
                 .build()
                 .toString();
-        logger.info("Url: {}", url);
+        logger.debug("Url: {}", url);
 
         return url;
     }
