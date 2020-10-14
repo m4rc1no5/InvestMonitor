@@ -1,10 +1,10 @@
 package pl.marceen.investmonitor.api.worker;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
@@ -23,7 +23,6 @@ import pl.marceen.investmonitor.api.pkotfi.entity.Subfund;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,8 +33,10 @@ import java.util.List;
 public class PkoTfiProfitWorker {
     private static final Logger logger = LoggerFactory.getLogger(PkoTfiProfitWorker.class);
 
+    private static final BigDecimal AMOUNT = new BigDecimal(10000);
+
     @Mock(answer = Answers.CALLS_REAL_METHODS)
-    private HttpExecutor httpExecutor;
+    private HttpExecutor<FundResponse> httpExecutor;
 
     @Mock(answer = Answers.CALLS_REAL_METHODS)
     private UrlBuilder urlBuilder;
@@ -52,35 +53,27 @@ public class PkoTfiProfitWorker {
     @Mock(answer = Answers.CALLS_REAL_METHODS)
     private ProfitCalculator profitCalculator;
 
+    @InjectMocks
+    private ResultGetter resultGetter;
+
     @Test
     void work() {
-        HttpClientProducer httpClientProducer = new HttpClientProducer();
-        OkHttpClient client = httpClientProducer.produce();
-
+        OkHttpClient client = new HttpClientProducer().produce();
         Arrays.stream(Subfund.values()).forEach(subfund -> showProfit(client, subfund));
     }
 
     private void showProfit(OkHttpClient client, Subfund subfund) {
-        logger.info("========");
-        logger.info("Subfund: {}", subfund);
+        Result result = resultGetter.get(client, subfund);
 
-        LocalDateTime now = LocalDateTime.now();
-        String url = urlBuilder.build(subfund, now.minusYears(5), now);
-        Request request = requestBuilder.build(url);
-
-        FundResponse fundResponse = (FundResponse) httpExecutor.execute(FundResponse.class, client, request);
-        Result result = resultMapper.map(fundResponse.getDataList());
-
-        BigDecimal amount = new BigDecimal(10000);
         BigDecimal firstValue = result.getDataList().get(0).getValue();
         logger.info("First value: {}", firstValue);
-        BigDecimal point = amount.divide(firstValue, 10, RoundingMode.CEILING);
+        BigDecimal point = AMOUNT.divide(firstValue, 10, RoundingMode.CEILING);
         logger.info("Point: {}", point);
-        BigDecimal lastValue = result.getDataList().get(result.dataList.size()-1).getValue();
+        BigDecimal lastValue = result.getDataList().get(result.dataList.size() - 1).getValue();
         logger.info("Result without strategy: {}", point.multiply(lastValue));
 
-        List<Data> dataList = arithmeticMovingAverage.calculate(result, 23);
-        BigDecimal profit = profitCalculator.calculate(dataList, amount, subfund.getEntry(), subfund.getExit());
+        List<Data> dataList = arithmeticMovingAverage.calculate(result, subfund.getNumberOfElements());
+        BigDecimal profit = profitCalculator.calculate(dataList, AMOUNT, subfund.getEntry(), subfund.getExit());
         logger.info("Result with strategy: {}", profit);
     }
 }

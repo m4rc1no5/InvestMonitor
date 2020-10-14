@@ -13,8 +13,8 @@ import javax.inject.Inject;
 /**
  * @author Marcin Zaremba
  */
-public class PkoTriClient {
-    private static final Logger logger = LoggerFactory.getLogger(PkoTriClient.class);
+public class PkoTfiClient {
+    private static final Logger logger = LoggerFactory.getLogger(PkoTfiClient.class);
 
     @Inject
     private PkoTfiSender pkoTfiSender;

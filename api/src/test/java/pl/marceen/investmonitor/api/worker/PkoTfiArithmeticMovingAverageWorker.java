@@ -1,16 +1,15 @@
 package pl.marceen.investmonitor.api.worker;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.api.analizer.control.ArithmeticMovingAverage;
-import pl.marceen.investmonitor.api.analizer.control.ProfitCalculator;
 import pl.marceen.investmonitor.api.analizer.entity.Data;
 import pl.marceen.investmonitor.api.analizer.entity.Result;
 import pl.marceen.investmonitor.api.network.control.HttpClientProducer;
@@ -22,7 +21,6 @@ import pl.marceen.investmonitor.api.pkotfi.entity.FundResponse;
 import pl.marceen.investmonitor.api.pkotfi.entity.Subfund;
 
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class PkoTfiArithmeticMovingAverageWorker {
     private static final Logger logger = LoggerFactory.getLogger(PkoTfiProfitWorker.class);
 
     @Mock(answer = Answers.CALLS_REAL_METHODS)
-    private HttpExecutor httpExecutor;
+    private HttpExecutor<FundResponse> httpExecutor;
 
     @Mock(answer = Answers.CALLS_REAL_METHODS)
     private UrlBuilder urlBuilder;
@@ -48,31 +46,22 @@ public class PkoTfiArithmeticMovingAverageWorker {
     @Mock(answer = Answers.CALLS_REAL_METHODS)
     private ArithmeticMovingAverage arithmeticMovingAverage;
 
-    @Mock(answer = Answers.CALLS_REAL_METHODS)
-    private ProfitCalculator profitCalculator;
+    @InjectMocks
+    private ResultGetter resultGetter;
 
     @Test
     void work() {
-        HttpClientProducer httpClientProducer = new HttpClientProducer();
-        OkHttpClient client = httpClientProducer.produce();
+        OkHttpClient client = new HttpClientProducer().produce();
 
         Arrays.stream(Subfund.values()).forEach(subfund -> calculate(client, subfund));
     }
 
     public void calculate(OkHttpClient client, Subfund subfund) {
-        logger.info("========");
-        logger.info("Subfund: {}", subfund);
-
-        LocalDateTime now = LocalDateTime.now();
-        String url = urlBuilder.build(subfund, now.minusYears(5), now);
-        Request request = requestBuilder.build(url);
-
-        FundResponse fundResponse = (FundResponse) httpExecutor.execute(FundResponse.class, client, request);
-        Result result = resultMapper.map(fundResponse.getDataList());
-        List<Data> dataList = arithmeticMovingAverage.calculate(result, 23);
+        Result result = resultGetter.get(client, subfund);
+        List<Data> dataList = arithmeticMovingAverage.calculate(result, subfund.getNumberOfElements());
 
         dataList.stream()
-                .skip(dataList.size() - 20)
+                .skip(dataList.size() - subfund.getNumberOfElements())
                 .forEach(this::log);
     }
 
