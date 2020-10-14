@@ -13,11 +13,21 @@ public enum Subfund {
     BALANCED("6", "PKO Balanced Subfund", "PKO Zrównoważony", 22, "1.1", "-1.2"),
     SMALL_AND_MID_CAP_EQUITY("8", "PKO Small and Mid-cap Equity Subfund", "PKO Akcji Małych i Średnich Spółek", 21, "0.5", "-1.0"),
     NEW_EUROPE_EQUITY("10", "PKO New Europe Equity Subfund", "PKO Akcji Nowa Europa", 44, "0.8", "-0.9"),
+    STRATEGIC_ALLOCATION("11", "PKO Strategic Allocation Subfund", "PKO Strategicznej Alokacji", 29, "0.9", "-0.9"),
+    BOND_PLUS("30", "PKO Bond Plus Subfund", "PKO Papierów Dłużnych Plus", 42, "0.9", "-0.8"),
+    EQUITY_PLUS("33", "PKO Equity Plus Subfund", "PKO Akcji Plus", 20, "0.9", "-0.9"),
     GLOBAL_NATURAL_RESOURCES("34", "PKO Global Natural Resources Subfund", "PKO Surowców Globalny", 57, "1.1", "-1.2"),
     GLOBAL_TECHNOLOGY_AND_INNOVATION("35", "PKO Global Technology and Innovation Subfund", "PKO Technologii i Innowacji Globalny", 25, "0.5", "-1.1"),
+    GLOBAL_LUXURY_GOODS("36", "PKO Global Luxury Goods Subfund", "PKO Dóbr Luksusowych Globalny", 70, "0.7", "-0.6"),
+    GLOBAL_INFRASTRUCTURE_AND_CONSTRUCTION("37", "PKO Global Infrastructure and Construction Subfund", "PKO Infrastruktury i Budownictwa Globalny", 36, "0.6", "-0.5"),
+    GLOBAL_EQUITY_DIVIDEND("73", "PKO Global Equity Dividend Subfund", "PKO Akcji Dywidendowych Globalny", 39, "0.5", "-1.2"),
+    EUROPEAN_EQUITY("74", "PKO European Equity Subfund", "PKO Akcji Rynku Europejskiego", 20, "1.1", "-0.6"),
     US_EQUITY("75", "PKO U.S. Equity Subfund", "PKO Akcji Rynku Amerykańskiego", 21, "0.7", "-1.0"),
+    JAPANESE_EQUITY("77", "PKO Japanese Equity Subfund", "PKO Akcji Rynku Japońskiego", 22, "0.9", "-1.2"),
+    GOLD_EQUITY("79", "PKO Gold Equity Subfund", "PKO Akcji Rynku Złota", 52, "1.1", "-0.6"),
+    USD_BOND("80", "PKO USD Bond Subfund", "PKO Papierów Dłużnych USD", 52, "0.6", "-1.1"),
     EMERGING_MARKETS_EQUITY("84", "PKO Emerging Markets Equity Subfund", "PKO Akcji Rynków Wschodzących", 40, "0.8", "-1.2"),
-    JAPANESE_EQUITY("77", "PKO Japanese Equity Subfund", "PKO Akcji Rynku Japońskiego", 22, "0.9", "-1.2");
+    GLOBAL_MEDICINE_AND_DEMOGRAPHY("91", "PKO Global Medicine and Demography Subfund", "PKO Medycyny i Demografii Globalny", 23, "0.5", "-1.1");
 
     private final String id;
     private final String subfundName;
