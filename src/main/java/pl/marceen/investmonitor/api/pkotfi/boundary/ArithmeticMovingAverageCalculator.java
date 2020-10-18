@@ -35,7 +35,9 @@ public class ArithmeticMovingAverageCalculator {
     }
 
     public void calculate(int numberOfMonths) {
-        Arrays.stream(Subfund.values()).forEach(subfund -> calculate(httpClient, subfund, numberOfMonths));
+        Arrays.stream(Subfund.values())
+                .filter(Subfund::isActive)
+                .forEach(subfund -> calculate(httpClient, subfund, numberOfMonths));
     }
 
     public void calculate(OkHttpClient client, Subfund subfund, int numberOfMonths) {

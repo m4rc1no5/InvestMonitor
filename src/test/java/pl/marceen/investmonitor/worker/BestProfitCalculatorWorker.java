@@ -13,7 +13,6 @@ import pl.marceen.investmonitor.api.pkotfi.control.RequestBuilder;
 import pl.marceen.investmonitor.api.pkotfi.control.ResultGetter;
 import pl.marceen.investmonitor.api.pkotfi.control.ResultMapper;
 import pl.marceen.investmonitor.api.pkotfi.control.UrlBuilder;
-import pl.marceen.investmonitor.api.pkotfi.entity.FundResponse;
 import pl.marceen.investmonitor.api.pkotfi.entity.Subfund;
 
 import java.math.BigDecimal;
@@ -42,28 +41,16 @@ public class BestProfitCalculatorWorker {
     private static final int MIN_NUMBER_OF_ELEMENTS = 20;
     private static final int MAX_NUMBER_OF_ELEMENTS = 100;
 
-    private HttpExecutor<FundResponse> httpExecutor;
-
-    private UrlBuilder urlBuilder;
-
-    private RequestBuilder requestBuilder;
-
-    private ResultMapper resultMapper;
-
-    private ArithmeticMovingAverage arithmeticMovingAverage;
-
-    private ProfitCalculator profitCalculator;
-
     private ResultGetter resultGetter;
+    private ProfitCalculator profitCalculator;
+    private ArithmeticMovingAverage arithmeticMovingAverage;
 
     @Test
     void work() {
         OkHttpClient client = new HttpClientProducer().produce();
-        urlBuilder = new UrlBuilder();
-        requestBuilder = new RequestBuilder();
-        httpExecutor = new HttpExecutor<>();
-        resultMapper = new ResultMapper();
-        resultGetter = new ResultGetter(urlBuilder, requestBuilder, httpExecutor, resultMapper);
+        resultGetter = new ResultGetter(new UrlBuilder(), new RequestBuilder(), new HttpExecutor<>(), new ResultMapper());
+        profitCalculator = new ProfitCalculator();
+        arithmeticMovingAverage = new ArithmeticMovingAverage();
 
         Arrays.stream(Subfund.values()).forEach(subfund -> calculate(client, subfund));
     }

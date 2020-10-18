@@ -70,4 +70,8 @@ public enum Subfund {
     public BigDecimal getExit() {
         return exit;
     }
+
+    public boolean isActive() {
+        return active;
+    }
 }
