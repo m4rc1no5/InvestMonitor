@@ -33,7 +33,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
     @Override
     public String handleRequest(SQSEvent sqsEvent, Context context) {
         logger.info("START");
-        new ArithmeticMovingAverageCalculator().calculate(12);
+        new ArithmeticMovingAverageCalculator().calculate(12, true);
         logger.info("END");
         return null;
     }

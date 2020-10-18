@@ -7,6 +7,6 @@ import pl.marceen.investmonitor.pkotfi.boundary.ArithmeticMovingAverageCalculato
  */
 public class PkoTfiArithmeticMovingAverageWorker {
     public static void main(String[] args) {
-        new ArithmeticMovingAverageCalculator().calculate(12);
+        new ArithmeticMovingAverageCalculator().calculate(12, true);
     }
 }

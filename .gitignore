@@ -1,3 +1,4 @@
 bucket-name.txt
 out.json
 out.yml
+/src/main/resources/config/email.json

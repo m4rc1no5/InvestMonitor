@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.entity.Data;
 import pl.marceen.investmonitor.analizer.entity.Result;
+import pl.marceen.investmonitor.email.boundary.EmailSender;
+import pl.marceen.investmonitor.email.entity.EmailData;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
 import pl.marceen.investmonitor.network.control.HttpExecutor;
 import pl.marceen.investmonitor.pkotfi.control.RequestBuilder;
@@ -17,12 +19,16 @@ import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 /**
  * @author Marcin Zaremba
  */
 public class ArithmeticMovingAverageCalculator {
     private static final Logger logger = LoggerFactory.getLogger(ArithmeticMovingAverageCalculator.class);
+
+    private static final String EMAIL_SUBJECT = "InvestMonitor - arithmetic moving average report";
 
     private final ResultGetter resultGetter;
     private final ArithmeticMovingAverage arithmeticMovingAverage;
@@ -34,22 +40,43 @@ public class ArithmeticMovingAverageCalculator {
         httpClient = new HttpClientProducer().produce();
     }
 
-    public void calculate(int numberOfMonths) {
-        Arrays.stream(Subfund.values())
+    public void calculate(int numberOfMonths, boolean sendEmail) {
+
+        String result = Arrays.stream(Subfund.values())
                 .filter(Subfund::isActive)
-                .forEach(subfund -> calculate(httpClient, subfund, numberOfMonths));
+                .map(subfund -> calculate(httpClient, subfund, numberOfMonths))
+                .collect(Collectors.joining("\n\n"));
+
+        logger.info("Result: {}", result);
+
+        if (!sendEmail) {
+            return;
+        }
+
+        new EmailSender().send(
+                new EmailData()
+                        .subject(EMAIL_SUBJECT)
+                        .text(result)
+        );
     }
 
-    private void calculate(OkHttpClient client, Subfund subfund, int numberOfMonths) {
+    private String calculate(OkHttpClient client, Subfund subfund, int numberOfMonths) {
         Result result = resultGetter.get(client, subfund, numberOfMonths);
         List<Data> dataList = arithmeticMovingAverage.calculate(result, subfund.getNumberOfElements());
 
+        StringJoiner stringJoiner = new StringJoiner("\n");
+        stringJoiner.add(String.format("Subfund: %s (%s)", subfund.name(), subfund.getSubfundNameInPolish()));
+        stringJoiner.add(String.format("Entry: %s", subfund.getEntry()));
+        stringJoiner.add(String.format("Exit: %s", subfund.getExit()));
+
         dataList.stream()
                 .skip(dataList.size() - subfund.getNumberOfElements())
-                .forEach(this::log);
+                .forEach(data -> stringJoiner.add(getRow(data)));
+
+        return stringJoiner.toString();
     }
 
-    private void log(Data data) {
-        logger.info("{} | {} | {} | {}", data.getDate(), data.getValue().setScale(2, RoundingMode.HALF_UP), data.getAverage(), data.getDeviation());
+    private String getRow(Data data) {
+        return String.format("%s | %s | %s | %s", data.getDate(), data.getValue().setScale(2, RoundingMode.HALF_UP), data.getAverage(), data.getDeviation());
     }
 }

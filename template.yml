@@ -9,7 +9,7 @@ Resources:
       Handler: pl.marceen.investmonitor.aws.boundary.Handler::handleRequest
       Runtime: java11
       Description: My investing monitor
-      MemorySize: 128
+      MemorySize: 512
       Timeout: 60
       # Function's execution role
       Policies:
