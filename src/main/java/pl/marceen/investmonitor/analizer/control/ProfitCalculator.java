@@ -1,6 +1,6 @@
-package pl.marceen.investmonitor.api.analizer.control;
+package pl.marceen.investmonitor.analizer.control;
 
-import pl.marceen.investmonitor.api.analizer.entity.Data;
+import pl.marceen.investmonitor.analizer.entity.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

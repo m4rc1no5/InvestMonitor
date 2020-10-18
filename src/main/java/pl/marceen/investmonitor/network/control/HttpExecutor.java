@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.network.control;
+package pl.marceen.investmonitor.network.control;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -6,7 +6,7 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.api.network.entity.NetworkException;
+import pl.marceen.investmonitor.network.entity.NetworkException;
 
 import javax.json.bind.JsonbBuilder;
 import java.io.IOException;

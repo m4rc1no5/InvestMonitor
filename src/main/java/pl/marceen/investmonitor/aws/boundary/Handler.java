@@ -1,11 +1,11 @@
-package pl.marceen.investmonitor.api.aws.boundary;
+package pl.marceen.investmonitor.aws.boundary;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.api.pkotfi.boundary.ArithmeticMovingAverageCalculator;
+import pl.marceen.investmonitor.pkotfi.boundary.ArithmeticMovingAverageCalculator;
 import software.amazon.awssdk.services.lambda.LambdaAsyncClient;
 import software.amazon.awssdk.services.lambda.model.GetAccountSettingsRequest;
 import software.amazon.awssdk.services.lambda.model.GetAccountSettingsResponse;

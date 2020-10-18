@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.analizer.entity;
+package pl.marceen.investmonitor.analizer.entity;
 
 import java.util.List;
 

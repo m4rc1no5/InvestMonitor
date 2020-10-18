@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.pkotfi.entity;
+package pl.marceen.investmonitor.pkotfi.entity;
 
 /**
  * @author Marcin Zaremba

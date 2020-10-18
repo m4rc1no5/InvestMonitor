@@ -1,18 +1,18 @@
-package pl.marceen.investmonitor.api.pkotfi.boundary;
+package pl.marceen.investmonitor.pkotfi.boundary;
 
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.api.analizer.control.ArithmeticMovingAverage;
-import pl.marceen.investmonitor.api.analizer.entity.Data;
-import pl.marceen.investmonitor.api.analizer.entity.Result;
-import pl.marceen.investmonitor.api.network.control.HttpClientProducer;
-import pl.marceen.investmonitor.api.network.control.HttpExecutor;
-import pl.marceen.investmonitor.api.pkotfi.control.RequestBuilder;
-import pl.marceen.investmonitor.api.pkotfi.control.ResultGetter;
-import pl.marceen.investmonitor.api.pkotfi.control.ResultMapper;
-import pl.marceen.investmonitor.api.pkotfi.control.UrlBuilder;
-import pl.marceen.investmonitor.api.pkotfi.entity.Subfund;
+import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
+import pl.marceen.investmonitor.analizer.entity.Data;
+import pl.marceen.investmonitor.analizer.entity.Result;
+import pl.marceen.investmonitor.network.control.HttpClientProducer;
+import pl.marceen.investmonitor.network.control.HttpExecutor;
+import pl.marceen.investmonitor.pkotfi.control.RequestBuilder;
+import pl.marceen.investmonitor.pkotfi.control.ResultGetter;
+import pl.marceen.investmonitor.pkotfi.control.ResultMapper;
+import pl.marceen.investmonitor.pkotfi.control.UrlBuilder;
+import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class ArithmeticMovingAverageCalculator {
                 .forEach(subfund -> calculate(httpClient, subfund, numberOfMonths));
     }
 
-    public void calculate(OkHttpClient client, Subfund subfund, int numberOfMonths) {
+    private void calculate(OkHttpClient client, Subfund subfund, int numberOfMonths) {
         Result result = resultGetter.get(client, subfund, numberOfMonths);
         List<Data> dataList = arithmeticMovingAverage.calculate(result, subfund.getNumberOfElements());
 

@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.network.entity;
+package pl.marceen.investmonitor.network.entity;
 
 import org.slf4j.Logger;
 

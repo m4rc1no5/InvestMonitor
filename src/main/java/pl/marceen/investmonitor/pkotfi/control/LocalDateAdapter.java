@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.pkotfi.control;
+package pl.marceen.investmonitor.pkotfi.control;
 
 import org.slf4j.Logger;
 

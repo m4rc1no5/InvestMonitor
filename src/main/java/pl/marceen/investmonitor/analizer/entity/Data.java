@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.analizer.entity;
+package pl.marceen.investmonitor.analizer.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

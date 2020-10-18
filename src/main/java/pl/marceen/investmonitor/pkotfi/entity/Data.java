@@ -1,6 +1,6 @@
-package pl.marceen.investmonitor.api.pkotfi.entity;
+package pl.marceen.investmonitor.pkotfi.entity;
 
-import pl.marceen.investmonitor.api.pkotfi.control.LocalDateAdapter;
+import pl.marceen.investmonitor.pkotfi.control.LocalDateAdapter;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;

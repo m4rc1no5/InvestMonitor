@@ -1,6 +1,6 @@
 package pl.marceen.investmonitor.worker;
 
-import pl.marceen.investmonitor.api.pkotfi.boundary.ArithmeticMovingAverageCalculator;
+import pl.marceen.investmonitor.pkotfi.boundary.ArithmeticMovingAverageCalculator;
 
 /**
  * @author Marcin Zaremba

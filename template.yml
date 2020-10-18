@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: target/InvestMonitor.jar
-      Handler: pl.marceen.investmonitor.api.aws.boundary.Handler::handleRequest
+      Handler: pl.marceen.investmonitor.aws.boundary.Handler::handleRequest
       Runtime: java11
       Description: My investing monitor
       MemorySize: 128

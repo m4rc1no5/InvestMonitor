@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.api.network.control;
+package pl.marceen.investmonitor.network.control;
 
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;

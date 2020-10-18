@@ -1,12 +1,12 @@
-package pl.marceen.investmonitor.api.pkotfi.control;
+package pl.marceen.investmonitor.pkotfi.control;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.api.network.control.HttpExecutor;
-import pl.marceen.investmonitor.api.pkotfi.entity.FundResponse;
-import pl.marceen.investmonitor.api.pkotfi.entity.Subfund;
+import pl.marceen.investmonitor.network.control.HttpExecutor;
+import pl.marceen.investmonitor.pkotfi.entity.FundResponse;
+import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;

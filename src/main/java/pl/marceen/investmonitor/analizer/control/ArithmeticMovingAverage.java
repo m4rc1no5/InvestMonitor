@@ -1,9 +1,9 @@
-package pl.marceen.investmonitor.api.analizer.control;
+package pl.marceen.investmonitor.analizer.control;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.api.analizer.entity.Data;
-import pl.marceen.investmonitor.api.analizer.entity.Result;
+import pl.marceen.investmonitor.analizer.entity.Data;
+import pl.marceen.investmonitor.analizer.entity.Result;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
