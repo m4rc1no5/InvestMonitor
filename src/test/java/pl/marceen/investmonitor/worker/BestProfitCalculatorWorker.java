@@ -29,17 +29,18 @@ public class BestProfitCalculatorWorker {
     private static final Logger logger = LoggerFactory.getLogger(BestProfitCalculatorWorker.class);
 
     private static final BigDecimal MIN_ENTRY = new BigDecimal("0.5");
-    private static final BigDecimal MAX_ENTRY = new BigDecimal("1.2");
+    private static final BigDecimal MAX_ENTRY = new BigDecimal("1.5");
     private static final BigDecimal ENTRY_STEP = new BigDecimal("0.1");
 
     private static final BigDecimal MIN_EXIT = new BigDecimal("-0.5");
-    private static final BigDecimal MAX_EXIT = new BigDecimal("-1.2");
+    private static final BigDecimal MAX_EXIT = new BigDecimal("-1.5");
     private static final BigDecimal EXIT_STEP = new BigDecimal("-0.1");
 
     private static final BigDecimal AMOUNT = new BigDecimal(10000);
 
     private static final int MIN_NUMBER_OF_ELEMENTS = 20;
     private static final int MAX_NUMBER_OF_ELEMENTS = 100;
+    private static final int NUMBER_OF_MONTHS = 60;
 
     private ResultGetter resultGetter;
     private ProfitCalculator profitCalculator;
@@ -52,11 +53,13 @@ public class BestProfitCalculatorWorker {
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 
-        Arrays.stream(Subfund.values()).forEach(subfund -> calculate(client, subfund));
+        Arrays.stream(Subfund.values())
+                .filter(Subfund::isActive)
+                .forEach(subfund -> calculate(client, subfund));
     }
 
     public void calculate(OkHttpClient client, Subfund subfund) {
-        Result result = resultGetter.get(client, subfund, 60);
+        Result result = resultGetter.get(client, subfund, NUMBER_OF_MONTHS);
 
         BigDecimal entry = MIN_ENTRY;
         BigDecimal exit;
