@@ -2,7 +2,7 @@
 
 ## Information about the application
 
-This application is being base on https://github.com/awsdocs/aws-lambda-developer-guide/tree/main/sample-apps/blank-java
+This application is being base on https://github.com/awsdocs/aws-lambda-developer-guide/tree/main/sample-apps/blank-java (about running as Lambda)
 
 ## How to use it
 
