@@ -32,10 +32,11 @@ public class EmailSender {
 
         Properties properties = System.getProperties();
         properties.put("mail.smtp.host", emailConfig.getSmtpHost());
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.socketFactory.port", "465");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.socketFactory.port", "587");
         properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
 
         Authenticator auth = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
