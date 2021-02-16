@@ -9,7 +9,6 @@ import pl.marceen.investmonitor.network.control.HttpExecutor;
 import pl.marceen.investmonitor.pkotfi.entity.FundResponse;
 import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 
 /**
@@ -18,16 +17,12 @@ import java.time.LocalDateTime;
 public class ResultGetter {
     private static final Logger logger = LoggerFactory.getLogger(ResultGetter.class);
 
-    @Inject
     private final UrlBuilder urlBuilder;
 
-    @Inject
     private final RequestBuilder requestBuilder;
 
-    @Inject
     private final HttpExecutor<FundResponse> httpExecutor;
 
-    @Inject
     private final ResultMapper resultMapper;
 
     public ResultGetter(UrlBuilder urlBuilder, RequestBuilder requestBuilder, HttpExecutor<FundResponse> httpExecutor, ResultMapper resultMapper) {
