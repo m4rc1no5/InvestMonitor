@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.worker;
+package pl.marceen.investmonitor.worker.pkotfi;
 
 import pl.marceen.investmonitor.pkotfi.boundary.ArithmeticMovingAverageCalculator;
 

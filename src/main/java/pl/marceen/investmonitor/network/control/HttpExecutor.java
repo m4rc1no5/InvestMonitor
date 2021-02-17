@@ -22,7 +22,7 @@ public class HttpExecutor<T> {
 
         Response response = getResponse(client, request);
         String responseAsString = getResponseAsString(response.body());
-        logger.debug("Raw response: {}", responseAsString);
+        logger.info("Raw response: {}", responseAsString);
 
         logger.debug("Try to convert response to object class {}", clazz.getSimpleName());
         T result = getResult(responseAsString, clazz);
@@ -43,11 +43,20 @@ public class HttpExecutor<T> {
     }
 
     private T getResult(String response, Class<T> clazz) throws NetworkException {
+        if (isGPWResponse(response)) {
+            logger.info("Found response from GPW - cut unnecessary characters");
+            response = response.substring(2, response.length() - 1);
+        }
+
         try (var jsonb = JsonbBuilder.create()) {
             return jsonb.fromJson(response, clazz);
         } catch (Exception e) {
             throw NetworkException.connectionProblem(e.getMessage(), logger);
         }
+    }
+
+    private boolean isGPWResponse(String response) {
+        return response.startsWith("\t[") || response.startsWith("[") || response.startsWith("\t\n[") || response.startsWith("\n[");
     }
 
     private Response getResponse(OkHttpClient client, Request request) throws NetworkException {

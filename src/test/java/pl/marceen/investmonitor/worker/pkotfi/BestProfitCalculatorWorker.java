@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.worker;
+package pl.marceen.investmonitor.worker.pkotfi;
 
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.Test;
