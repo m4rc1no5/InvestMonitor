@@ -14,7 +14,7 @@ import java.util.List;
 public class ProfitCalculator {
     private static final Logger logger = LoggerFactory.getLogger(ProfitCalculator.class);
 
-    public BigDecimal calculate(List<Data> dataList, BigDecimal amount, BigDecimal entry, BigDecimal exit) {
+    public BigDecimal calculate(List<Data> dataList, BigDecimal amount, BigDecimal entry, BigDecimal exit, int delay) {
         BigDecimal value = dataList.get(0).getValue();
         BigDecimal points = amount.divide(value, 3, RoundingMode.CEILING);
         boolean in = false;
@@ -23,7 +23,7 @@ public class ProfitCalculator {
         Action action = Action.ENTER;
 
         for (Data data : dataList) {
-            if (startTransaction && x < 3) {
+            if (startTransaction && x < delay) {
                 x++;
                 continue;
             }

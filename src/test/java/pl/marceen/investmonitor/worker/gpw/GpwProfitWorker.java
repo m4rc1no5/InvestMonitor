@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.worker.pkotfi;
+package pl.marceen.investmonitor.worker.gpw;
 
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.Test;
@@ -8,13 +8,14 @@ import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.control.ProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.Data;
 import pl.marceen.investmonitor.analizer.entity.Result;
+import pl.marceen.investmonitor.converter.boundary.JsonConverter;
+import pl.marceen.investmonitor.gpw.control.RequestBuilder;
+import pl.marceen.investmonitor.gpw.control.ResultGetter;
+import pl.marceen.investmonitor.gpw.control.ResultMapper;
+import pl.marceen.investmonitor.gpw.control.UrlBuilder;
+import pl.marceen.investmonitor.gpw.entity.Instrument;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
 import pl.marceen.investmonitor.network.control.HttpExecutor;
-import pl.marceen.investmonitor.pkotfi.control.RequestBuilder;
-import pl.marceen.investmonitor.pkotfi.control.ResultGetter;
-import pl.marceen.investmonitor.pkotfi.control.ResultMapper;
-import pl.marceen.investmonitor.pkotfi.control.UrlBuilder;
-import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,8 +25,8 @@ import java.util.List;
 /**
  * @author Marcin Zaremba
  */
-public class PkoTfiProfitWorker {
-    private static final Logger logger = LoggerFactory.getLogger(PkoTfiProfitWorker.class);
+public class GpwProfitWorker {
+    private static final Logger logger = LoggerFactory.getLogger(GpwProfitWorker.class);
 
     private static final BigDecimal AMOUNT = new BigDecimal(10000);
 
@@ -36,15 +37,19 @@ public class PkoTfiProfitWorker {
     @Test
     void work() {
         OkHttpClient client = new HttpClientProducer().produce();
-        resultGetter = new ResultGetter(new UrlBuilder(), new RequestBuilder(), new HttpExecutor<>(), new ResultMapper());
+        resultGetter = new ResultGetter(
+                new UrlBuilder(new RequestBuilder(), new JsonConverter()),
+                new HttpExecutor<>(),
+                new ResultMapper()
+        );
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 
-        Arrays.stream(Subfund.values()).forEach(subfund -> showProfit(client, subfund));
+        Arrays.stream(Instrument.values()).forEach(instrument -> showProfit(client, instrument));
     }
 
-    private void showProfit(OkHttpClient client, Subfund subfund) {
-        Result result = resultGetter.get(client, subfund, 60);
+    private void showProfit(OkHttpClient client, Instrument instrument) {
+        Result result = resultGetter.get(client, instrument, 60);
 
         BigDecimal firstValue = result.getDataList().get(0).getValue();
         logger.info("First value: {}", firstValue);
@@ -53,8 +58,8 @@ public class PkoTfiProfitWorker {
         BigDecimal lastValue = result.getDataList().get(result.dataList.size() - 1).getValue();
         logger.info("Result without strategy: {}", point.multiply(lastValue));
 
-        List<Data> dataList = arithmeticMovingAverage.calculate(result, subfund.getNumberOfElements());
-        BigDecimal profit = profitCalculator.calculate(dataList, AMOUNT, subfund.getEntry(), subfund.getExit(), 3);
+        List<Data> dataList = arithmeticMovingAverage.calculate(result, instrument.getNumberOfElements());
+        BigDecimal profit = profitCalculator.calculate(dataList, AMOUNT, instrument.getEntry(), instrument.getExit(), 1);
         logger.info("Result with strategy: {}", profit);
     }
 }

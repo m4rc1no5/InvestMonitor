@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.worker.pkotfi;
+package pl.marceen.investmonitor.worker.gpw;
 
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.Test;
@@ -7,13 +7,14 @@ import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.control.ProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.Result;
+import pl.marceen.investmonitor.converter.boundary.JsonConverter;
+import pl.marceen.investmonitor.gpw.control.RequestBuilder;
+import pl.marceen.investmonitor.gpw.control.ResultGetter;
+import pl.marceen.investmonitor.gpw.control.ResultMapper;
+import pl.marceen.investmonitor.gpw.control.UrlBuilder;
+import pl.marceen.investmonitor.gpw.entity.Instrument;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
 import pl.marceen.investmonitor.network.control.HttpExecutor;
-import pl.marceen.investmonitor.pkotfi.control.RequestBuilder;
-import pl.marceen.investmonitor.pkotfi.control.ResultGetter;
-import pl.marceen.investmonitor.pkotfi.control.ResultMapper;
-import pl.marceen.investmonitor.pkotfi.control.UrlBuilder;
-import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ import java.util.List;
 public class BestProfitCalculatorWorker {
     private static final Logger logger = LoggerFactory.getLogger(BestProfitCalculatorWorker.class);
 
-    private static final BigDecimal MIN_ENTRY = new BigDecimal("0.5");
-    private static final BigDecimal MAX_ENTRY = new BigDecimal("1.5");
-    private static final BigDecimal ENTRY_STEP = new BigDecimal("0.1");
+    private static final BigDecimal MIN_ENTRY = new BigDecimal("1.0");
+    private static final BigDecimal MAX_ENTRY = new BigDecimal("3.0");
+    private static final BigDecimal ENTRY_STEP = new BigDecimal("0.2");
 
-    private static final BigDecimal MIN_EXIT = new BigDecimal("-0.5");
-    private static final BigDecimal MAX_EXIT = new BigDecimal("-1.5");
-    private static final BigDecimal EXIT_STEP = new BigDecimal("-0.1");
+    private static final BigDecimal MIN_EXIT = new BigDecimal("-2.0");
+    private static final BigDecimal MAX_EXIT = new BigDecimal("-5.0");
+    private static final BigDecimal EXIT_STEP = new BigDecimal("-0.2");
 
     private static final BigDecimal AMOUNT = new BigDecimal(10000);
 
@@ -49,17 +50,21 @@ public class BestProfitCalculatorWorker {
     @Test
     void work() {
         OkHttpClient client = new HttpClientProducer().produce();
-        resultGetter = new ResultGetter(new UrlBuilder(), new RequestBuilder(), new HttpExecutor<>(), new ResultMapper());
+        resultGetter = new ResultGetter(
+                new UrlBuilder(new RequestBuilder(), new JsonConverter()),
+                new HttpExecutor<>(),
+                new ResultMapper()
+        );
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 
-        Arrays.stream(Subfund.values())
-                .filter(Subfund::isActive)
-                .forEach(subfund -> calculate(client, subfund));
+        Arrays.stream(Instrument.values())
+                .filter(Instrument::isActive)
+                .forEach(instrument -> calculate(client, instrument));
     }
 
-    public void calculate(OkHttpClient client, Subfund subfund) {
-        Result result = resultGetter.get(client, subfund, NUMBER_OF_MONTHS);
+    public void calculate(OkHttpClient client, Instrument instrument) {
+        Result result = resultGetter.get(client, instrument, NUMBER_OF_MONTHS);
 
         BigDecimal entry = MIN_ENTRY;
         BigDecimal exit;
@@ -82,7 +87,7 @@ public class BestProfitCalculatorWorker {
 
     private void scan(List<Parameters> parametersList, Result result, BigDecimal entry, BigDecimal exit) {
         for (int i = MIN_NUMBER_OF_ELEMENTS; i <= MAX_NUMBER_OF_ELEMENTS; i++) {
-            parametersList.add(new Parameters(profitCalculator.calculate(arithmeticMovingAverage.calculate(result, i), AMOUNT, entry, exit, 3), i, entry, exit));
+            parametersList.add(new Parameters(profitCalculator.calculate(arithmeticMovingAverage.calculate(result, i), AMOUNT, entry, exit, 1), i, entry, exit));
         }
     }
 

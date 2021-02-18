@@ -60,15 +60,15 @@ public class ArithmeticMovingAverageCalculator {
     private String process(Instrument instrument, int numberOfMonths) {
         Result result = resultGetter.get(httpClient, instrument, numberOfMonths);
 
-        List<Data> dataList = arithmeticMovingAverage.calculate(result, 40);
+        List<Data> dataList = arithmeticMovingAverage.calculate(result, instrument.getNumberOfElements());
 
         StringJoiner stringJoiner = new StringJoiner("\n");
         stringJoiner.add(String.format("Instrument: %s (%s)", instrument.name(), instrument.getFullName()));
-        // stringJoiner.add(String.format("Entry: %s", subfund.getEntry()));
-        // stringJoiner.add(String.format("Exit: %s", subfund.getExit()));
+        stringJoiner.add(String.format("Entry: %s", instrument.getEntry()));
+        stringJoiner.add(String.format("Exit: %s", instrument.getExit()));
 
         dataList.stream()
-                // .skip(dataList.size() - 100)
+                .skip(dataList.size() - instrument.getNumberOfElements())
                 .forEach(data -> stringJoiner.add(getRow(data)));
 
         return stringJoiner.toString();

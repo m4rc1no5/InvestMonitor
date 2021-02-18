@@ -38,7 +38,7 @@ class ProfitCalculatorTest {
         );
 
         // when
-        BigDecimal result = sut.calculate(dataList, new BigDecimal(10000L), BigDecimal.valueOf(0.5), BigDecimal.valueOf(-0.9));
+        BigDecimal result = sut.calculate(dataList, new BigDecimal(10000L), BigDecimal.valueOf(0.5), BigDecimal.valueOf(-0.9), 3);
 
         // then
     }

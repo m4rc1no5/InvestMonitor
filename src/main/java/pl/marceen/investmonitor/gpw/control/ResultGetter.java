@@ -28,11 +28,18 @@ public class ResultGetter {
     }
 
     public Result get(OkHttpClient client, Instrument instrument, int numberOfMonths) {
+        logger.info("========");
+        logger.info("Subfund: {} - {}", instrument, instrument.getFullName());
+        logger.info("Number of months: {}", numberOfMonths);
+        logger.info("Number of elements: {}", instrument.getNumberOfElements());
+        logger.info("Entry: {}", instrument.getEntry());
+        logger.info("Exit: {}", instrument.getExit());
+
         LocalDateTime now = LocalDateTime.now();
         String url = urlBuilder.build(instrument, now.minusMonths(numberOfMonths), now);
 
         Response response = httpExecutor.execute(Response.class, client, buildRequest(url));
-        logger.info("Response: {}", response);
+        logger.debug("Response: {}", response);
 
         return resultMapper.map(response);
     }
