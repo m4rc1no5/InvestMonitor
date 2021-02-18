@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.worker;
+package pl.marceen.investmonitor.worker.pkotfi;
 
 import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.Test;
@@ -82,7 +82,7 @@ public class BestProfitCalculatorWorker {
 
     private void scan(List<Parameters> parametersList, Result result, BigDecimal entry, BigDecimal exit) {
         for (int i = MIN_NUMBER_OF_ELEMENTS; i <= MAX_NUMBER_OF_ELEMENTS; i++) {
-            parametersList.add(new Parameters(profitCalculator.calculate(arithmeticMovingAverage.calculate(result, i), AMOUNT, entry, exit), i, entry, exit));
+            parametersList.add(new Parameters(profitCalculator.calculate(arithmeticMovingAverage.calculate(result, i), AMOUNT, entry, exit, 3), i, entry, exit));
         }
     }
 

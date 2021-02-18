@@ -34,6 +34,7 @@ public class Handler implements RequestHandler<SQSEvent, String> {
     public String handleRequest(SQSEvent sqsEvent, Context context) {
         logger.info("START");
         new ArithmeticMovingAverageCalculator().calculate(12, true);
+        new pl.marceen.investmonitor.gpw.boundary.ArithmeticMovingAverageCalculator().calculate(12, true);
         logger.info("END");
         return null;
     }

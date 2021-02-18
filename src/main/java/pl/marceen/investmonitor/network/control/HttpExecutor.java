@@ -10,12 +10,16 @@ import pl.marceen.investmonitor.network.entity.NetworkException;
 
 import javax.json.bind.JsonbBuilder;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Marcin Zaremba
  */
 public class HttpExecutor<T> {
     private static final Logger logger = LoggerFactory.getLogger(HttpExecutor.class);
+
+    private static final Pattern PATTERN_GPW_RESPONSE = Pattern.compile("\\[(.*)\\]$");
 
     public T execute(Class<T> clazz, OkHttpClient client, Request request) throws NetworkException {
         logger.debug("START");
@@ -43,11 +47,21 @@ public class HttpExecutor<T> {
     }
 
     private T getResult(String response, Class<T> clazz) throws NetworkException {
+        Matcher matcher = PATTERN_GPW_RESPONSE.matcher(response);
+        if (matcher.find() && 1 == matcher.groupCount()) {
+            logger.info("Found response from GPW - cut unnecessary characters");
+            response = matcher.group(1);
+        }
+
         try (var jsonb = JsonbBuilder.create()) {
             return jsonb.fromJson(response, clazz);
         } catch (Exception e) {
             throw NetworkException.connectionProblem(e.getMessage(), logger);
         }
+    }
+
+    private boolean isGPWResponse(String response) {
+        return response.startsWith("\t[") || response.startsWith("[") || response.startsWith("\t\n[") || response.startsWith("\n[");
     }
 
     private Response getResponse(OkHttpClient client, Request request) throws NetworkException {
