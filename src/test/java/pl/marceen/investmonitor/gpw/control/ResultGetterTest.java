@@ -3,6 +3,7 @@ package pl.marceen.investmonitor.gpw.control;
 import okhttp3.OkHttpClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pl.marceen.investmonitor.analizer.entity.Result;
 import pl.marceen.investmonitor.converter.boundary.JsonConverter;
@@ -28,6 +29,7 @@ class ResultGetterTest {
     }
 
     @Test
+    @Disabled
     void get() {
         // when
         Result result = sut.get(client, Instrument.ETFSP500, 6);

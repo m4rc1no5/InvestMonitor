@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 public class ArithmeticMovingAverageCalculator {
     private static final Logger logger = LoggerFactory.getLogger(ArithmeticMovingAverageCalculator.class);
 
+    private static final String EMAIL_SUBJECT = "InvestMonitor - GPW";
+
     private final ResultGetter resultGetter;
     private final ArithmeticMovingAverage arithmeticMovingAverage;
     private final OkHttpClient httpClient;
@@ -52,7 +54,7 @@ public class ArithmeticMovingAverageCalculator {
 
         new EmailSender().send(
                 new EmailData()
-                        .subject("GPW test")
+                        .subject(EMAIL_SUBJECT)
                         .text(result)
         );
     }

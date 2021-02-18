@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class ArithmeticMovingAverageCalculator {
     private static final Logger logger = LoggerFactory.getLogger(ArithmeticMovingAverageCalculator.class);
 
-    private static final String EMAIL_SUBJECT = "InvestMonitor - arithmetic moving average report";
+    private static final String EMAIL_SUBJECT = "InvestMonitor - PKOTFI";
 
     private final ResultGetter resultGetter;
     private final ArithmeticMovingAverage arithmeticMovingAverage;
