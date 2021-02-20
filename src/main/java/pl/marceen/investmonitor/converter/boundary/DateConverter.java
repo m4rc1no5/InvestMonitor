@@ -3,7 +3,7 @@ package pl.marceen.investmonitor.converter.boundary;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.TimeZone;
+import java.time.ZoneId;
 
 /**
  * @author Marcin Zaremba
@@ -13,6 +13,6 @@ public final class DateConverter {
     }
 
     public static LocalDate convertFromTimestamp(Long timestamp) {
-        return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), TimeZone.getDefault().toZoneId()).toLocalDate();
+        return LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.of("Europe/Warsaw")).toLocalDate();
     }
 }
