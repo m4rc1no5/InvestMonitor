@@ -21,10 +21,10 @@ public class ResultGetter {
     private final HttpExecutor<Response> httpExecutor;
     private final ResultMapper resultMapper;
 
-    public ResultGetter(UrlBuilder urlBuilder, HttpExecutor<Response> httpExecutor, ResultMapper resultMapper) {
-        this.urlBuilder = urlBuilder;
-        this.httpExecutor = httpExecutor;
-        this.resultMapper = resultMapper;
+    public ResultGetter() {
+        urlBuilder = new UrlBuilder();
+        httpExecutor = new HttpExecutor<>();
+        resultMapper = new ResultMapper();
     }
 
     public Result get(OkHttpClient client, Instrument instrument, int numberOfMonths) {

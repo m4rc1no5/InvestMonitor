@@ -44,7 +44,7 @@ public class ArithmeticMovingAverageCalculator {
 
         String result = Arrays.stream(Subfund.values())
                 .filter(Subfund::isActive)
-                .map(subfund -> calculate(httpClient, subfund, numberOfMonths))
+                .map(subfund -> calculate(subfund, numberOfMonths))
                 .collect(Collectors.joining("\n\n"));
 
         logger.info("Result: {}", result);
@@ -60,8 +60,8 @@ public class ArithmeticMovingAverageCalculator {
         );
     }
 
-    private String calculate(OkHttpClient client, Subfund subfund, int numberOfMonths) {
-        Result result = resultGetter.get(client, subfund, numberOfMonths);
+    private String calculate(Subfund subfund, int numberOfMonths) {
+        Result result = resultGetter.get(httpClient, subfund, numberOfMonths);
         List<Data> dataList = arithmeticMovingAverage.calculate(result, subfund.getNumberOfElements());
 
         StringJoiner stringJoiner = new StringJoiner("\n");

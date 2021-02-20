@@ -1,11 +1,13 @@
 package pl.marceen.investmonitor.pkotfi.entity;
 
+import pl.marceen.investmonitor.investment.entity.InstrumentInterface;
+
 import java.math.BigDecimal;
 
 /**
  * @author Marcin Zaremba
  */
-public enum Subfund {
+public enum Subfund implements InstrumentInterface {
     TREASURY_BOND_PLUS("1", "PKO Treasury Bond Plus - soif ", "PKO Obligacji Skarbowych Plus - sfio", 42, "0.5", "-0.6", false),
     TREASURY_BOND("2", "PKO Treasury Bond", "PKO Obligacji Skarbowych", 42, "0.5", "-0.6", false),
     LONG_TERM_BOND("4", "PKO Long-Term Bond Subfund", "PKO Obligacji Długoterminowych", 31, "1.4", "-0.5", true),

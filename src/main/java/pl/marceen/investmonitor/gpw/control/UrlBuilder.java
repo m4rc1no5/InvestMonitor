@@ -18,9 +18,9 @@ public class UrlBuilder {
     private final RequestBuilder requestBuilder;
     private final JsonConverter jsonConverter;
 
-    public UrlBuilder(RequestBuilder requestBuilder, JsonConverter jsonConverter) {
-        this.requestBuilder = requestBuilder;
-        this.jsonConverter = jsonConverter;
+    public UrlBuilder() {
+        requestBuilder = new RequestBuilder();
+        jsonConverter = new JsonConverter();
     }
 
     public String build(Instrument instrument, LocalDateTime fromDate, LocalDateTime toDate) {

@@ -36,13 +36,14 @@ public class ArithmeticMovingAverageCalculator {
     private final OkHttpClient httpClient;
 
     public ArithmeticMovingAverageCalculator() {
-        this.resultGetter = new ResultGetter(new UrlBuilder(new RequestBuilder(), new JsonConverter()), new HttpExecutor<>(), new ResultMapper());
+        this.resultGetter = new ResultGetter();
         this.arithmeticMovingAverage = new ArithmeticMovingAverage();
         this.httpClient = new HttpClientProducer().produce();
     }
 
     public void calculate(int numberOfMonths, boolean sendEmail) {
         String result = Arrays.stream(Instrument.values())
+                .filter(Instrument::isActive)
                 .map(instrument -> process(instrument, numberOfMonths))
                 .collect(Collectors.joining("\n\n"));
 

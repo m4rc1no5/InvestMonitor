@@ -2,7 +2,6 @@ package pl.marceen.investmonitor.gpw.control;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.marceen.investmonitor.converter.boundary.JsonConverter;
 import pl.marceen.investmonitor.gpw.entity.Instrument;
 
 import java.time.LocalDateTime;
@@ -17,10 +16,7 @@ class UrlBuilderTest {
 
     @BeforeEach
     void setUp() {
-        sut = new UrlBuilder(
-                new RequestBuilder(),
-                new JsonConverter()
-        );
+        sut = new UrlBuilder();
     }
 
     @Test

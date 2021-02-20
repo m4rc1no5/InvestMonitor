@@ -7,14 +7,9 @@ import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.control.ProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.Result;
-import pl.marceen.investmonitor.converter.boundary.JsonConverter;
-import pl.marceen.investmonitor.gpw.control.RequestBuilder;
 import pl.marceen.investmonitor.gpw.control.ResultGetter;
-import pl.marceen.investmonitor.gpw.control.ResultMapper;
-import pl.marceen.investmonitor.gpw.control.UrlBuilder;
 import pl.marceen.investmonitor.gpw.entity.Instrument;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
-import pl.marceen.investmonitor.network.control.HttpExecutor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -50,11 +45,7 @@ public class BestProfitCalculatorWorker {
     @Test
     void work() {
         OkHttpClient client = new HttpClientProducer().produce();
-        resultGetter = new ResultGetter(
-                new UrlBuilder(new RequestBuilder(), new JsonConverter()),
-                new HttpExecutor<>(),
-                new ResultMapper()
-        );
+        resultGetter = new ResultGetter();
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 

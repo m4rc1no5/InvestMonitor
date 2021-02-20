@@ -6,10 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pl.marceen.investmonitor.analizer.entity.Result;
-import pl.marceen.investmonitor.converter.boundary.JsonConverter;
 import pl.marceen.investmonitor.gpw.entity.Instrument;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
-import pl.marceen.investmonitor.network.control.HttpExecutor;
 
 /**
  * @author Marcin Zaremba
@@ -21,10 +19,7 @@ class ResultGetterTest {
 
     @BeforeEach
     void setUp() {
-        UrlBuilder urlBuilder = new UrlBuilder(new RequestBuilder(), new JsonConverter());
-
-        sut = new ResultGetter(urlBuilder, new HttpExecutor<>(), new ResultMapper());
-
+        sut = new ResultGetter();
         client = new HttpClientProducer().produce();
     }
 
