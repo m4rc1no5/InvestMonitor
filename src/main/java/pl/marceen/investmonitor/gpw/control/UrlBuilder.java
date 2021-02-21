@@ -4,8 +4,8 @@ import okhttp3.HttpUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.converter.boundary.JsonConverter;
-import pl.marceen.investmonitor.gpw.entity.Instrument;
 import pl.marceen.investmonitor.gpw.entity.Request;
+import pl.marceen.investmonitor.investment.entity.InstrumentInterface;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +23,7 @@ public class UrlBuilder {
         jsonConverter = new JsonConverter();
     }
 
-    public String build(Instrument instrument, LocalDateTime fromDate, LocalDateTime toDate) {
+    public String build(InstrumentInterface instrument, LocalDateTime fromDate, LocalDateTime toDate) {
         String url = new HttpUrl.Builder()
                 .scheme("https")
                 .host("www.gpw.pl")
@@ -36,7 +36,7 @@ public class UrlBuilder {
         return url;
     }
 
-    private String getReq(Instrument instrument, LocalDateTime fromDate, LocalDateTime toDate) {
+    private String getReq(InstrumentInterface instrument, LocalDateTime fromDate, LocalDateTime toDate) {
         Request request = requestBuilder.build(instrument, fromDate, toDate);
         return "[" + jsonConverter.toJson(request) + "]";
     }

@@ -13,15 +13,15 @@ public enum Instrument implements InstrumentInterface {
     BETAM40TR("PLBETF400025", "ETF MWIG40TR", 35, "2.6", "-2.0", true);
 
     private final String id;
-    private final String fullName;
+    private final String instrumentName;
     private final int numberOfElements;
     private final BigDecimal entry;
     private final BigDecimal exit;
     private final boolean active;
 
-    Instrument(String id, String fullName, int numberOfElements, String entry, String exit, boolean active) {
+    Instrument(String id, String instrumentName, int numberOfElements, String entry, String exit, boolean active) {
         this.id = id;
-        this.fullName = fullName;
+        this.instrumentName = instrumentName;
         this.numberOfElements = numberOfElements;
         this.entry = new BigDecimal(entry);
         this.exit = new BigDecimal(exit);
@@ -32,8 +32,8 @@ public enum Instrument implements InstrumentInterface {
         return id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getInstrumentName() {
+        return instrumentName;
     }
 
     public int getNumberOfElements() {

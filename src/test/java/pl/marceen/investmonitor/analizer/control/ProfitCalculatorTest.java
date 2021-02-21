@@ -2,6 +2,7 @@ package pl.marceen.investmonitor.analizer.control;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.marceen.investmonitor.analizer.boundary.ProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.Data;
 
 import java.math.BigDecimal;

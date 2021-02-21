@@ -5,14 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
-import pl.marceen.investmonitor.analizer.control.ProfitCalculator;
+import pl.marceen.investmonitor.analizer.boundary.ProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.Result;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
-import pl.marceen.investmonitor.network.control.HttpExecutor;
-import pl.marceen.investmonitor.pkotfi.control.RequestBuilder;
 import pl.marceen.investmonitor.pkotfi.control.ResultGetter;
-import pl.marceen.investmonitor.pkotfi.control.ResultMapper;
-import pl.marceen.investmonitor.pkotfi.control.UrlBuilder;
 import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
 import java.math.BigDecimal;
@@ -49,7 +45,7 @@ public class BestProfitCalculatorWorker {
     @Test
     void work() {
         OkHttpClient client = new HttpClientProducer().produce();
-        resultGetter = new ResultGetter(new UrlBuilder(), new RequestBuilder(), new HttpExecutor<>(), new ResultMapper());
+        resultGetter = new ResultGetter();
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 

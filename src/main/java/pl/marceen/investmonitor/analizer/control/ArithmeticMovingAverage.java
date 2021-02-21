@@ -19,6 +19,7 @@ public class ArithmeticMovingAverage {
     public List<Data> calculate(Result result, int numberOfElements) {
         List<Data> dataList = result.getDataList();
         int size = dataList.size();
+        logger.info("Data size: {}", size);
 
         List<Data> resultList = new ArrayList<>();
         for (int i = 0; i < size; i++) {

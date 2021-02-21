@@ -3,6 +3,7 @@ package pl.marceen.investmonitor.pkotfi.control;
 import okhttp3.HttpUrl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.marceen.investmonitor.investment.entity.InstrumentInterface;
 import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class UrlBuilder {
 
     private static final String HOST = "www.pkotfi.pl";
 
-    public String build(Subfund subfund, LocalDateTime fromDate, LocalDateTime toDate) {
+    public String build(InstrumentInterface instrument, LocalDateTime fromDate, LocalDateTime toDate) {
         String url = new HttpUrl.Builder()
                 .scheme("https")
                 .host(HOST)
@@ -25,7 +26,7 @@ public class UrlBuilder {
                 .addPathSegment("v2")
                 .addPathSegment("tfi")
                 .addPathSegment("fund")
-                .addPathSegment(subfund.getId())
+                .addPathSegment(instrument.getId())
                 .addPathSegment("values")
                 .addQueryParameter("format", "json")
                 .addQueryParameter("ajax", "1")

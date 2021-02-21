@@ -5,7 +5,10 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.pkotfi.boundary.ArithmeticMovingAverageCalculator;
+import pl.marceen.investmonitor.gpw.boundary.GPWArithmeticMovingAverageAnalyzer;
+import pl.marceen.investmonitor.gpw.entity.Instrument;
+import pl.marceen.investmonitor.pkotfi.boundary.PkoTfiArithmeticMovingAverageAnalyzer;
+import pl.marceen.investmonitor.pkotfi.entity.Subfund;
 import software.amazon.awssdk.services.lambda.LambdaAsyncClient;
 import software.amazon.awssdk.services.lambda.model.GetAccountSettingsRequest;
 import software.amazon.awssdk.services.lambda.model.GetAccountSettingsResponse;
@@ -33,8 +36,8 @@ public class Handler implements RequestHandler<SQSEvent, String> {
     @Override
     public String handleRequest(SQSEvent sqsEvent, Context context) {
         logger.info("START");
-        new ArithmeticMovingAverageCalculator().calculate(12, true);
-        new pl.marceen.investmonitor.gpw.boundary.ArithmeticMovingAverageCalculator().calculate(12, true);
+        new PkoTfiArithmeticMovingAverageAnalyzer().calculate(Subfund.class, 12, true);
+        new GPWArithmeticMovingAverageAnalyzer().calculate(Instrument.class, 12, true);
         logger.info("END");
         return null;
     }

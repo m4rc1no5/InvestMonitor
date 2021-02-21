@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
-import pl.marceen.investmonitor.analizer.control.ProfitCalculator;
+import pl.marceen.investmonitor.analizer.boundary.ProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.Data;
 import pl.marceen.investmonitor.analizer.entity.Result;
 import pl.marceen.investmonitor.gpw.control.ResultGetter;

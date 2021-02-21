@@ -1,7 +1,8 @@
 package pl.marceen.investmonitor.worker.gpw;
 
 
-import pl.marceen.investmonitor.gpw.boundary.ArithmeticMovingAverageCalculator;
+import pl.marceen.investmonitor.gpw.boundary.GPWArithmeticMovingAverageAnalyzer;
+import pl.marceen.investmonitor.gpw.entity.Instrument;
 
 /**
  * @author Marcin Zaremba
@@ -12,6 +13,6 @@ public class GpwArithmeticMovingAverageWorker {
     private static final int NUMBER_OF_MONTHS = 24;
 
     public static void main(String[] args) {
-        new ArithmeticMovingAverageCalculator().calculate(NUMBER_OF_MONTHS, SEND_EMAIL);
+        new GPWArithmeticMovingAverageAnalyzer().calculate(Instrument.class, NUMBER_OF_MONTHS, SEND_EMAIL);
     }
 }

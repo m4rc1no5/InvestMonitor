@@ -1,4 +1,4 @@
-package pl.marceen.investmonitor.analizer.control;
+package pl.marceen.investmonitor.analizer.boundary;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
