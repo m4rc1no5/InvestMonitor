@@ -37,6 +37,7 @@ public class BestProfitCalculatorWorker {
     private static final int MIN_NUMBER_OF_ELEMENTS = 20;
     private static final int MAX_NUMBER_OF_ELEMENTS = 100;
     private static final int NUMBER_OF_MONTHS = 60;
+    private static final int DELAY = 3;
 
     private ResultGetter resultGetter;
     private ProfitCalculator profitCalculator;
@@ -78,7 +79,7 @@ public class BestProfitCalculatorWorker {
 
     private void scan(List<Parameters> parametersList, Result result, BigDecimal entry, BigDecimal exit) {
         for (int i = MIN_NUMBER_OF_ELEMENTS; i <= MAX_NUMBER_OF_ELEMENTS; i++) {
-            parametersList.add(new Parameters(profitCalculator.calculate(arithmeticMovingAverage.calculate(result, i), AMOUNT, entry, exit, 3), i, entry, exit));
+            parametersList.add(new Parameters(profitCalculator.calculate(arithmeticMovingAverage.calculate(result, i), AMOUNT, entry, exit, DELAY), i, entry, exit));
         }
     }
 

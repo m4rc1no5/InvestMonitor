@@ -31,12 +31,13 @@ public class GpwProfitWorker {
 
     @Test
     void work() {
-        OkHttpClient client = new HttpClientProducer().produce();
         resultGetter = new ResultGetter();
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 
-        Arrays.stream(Instrument.values()).forEach(instrument -> showProfit(client, instrument));
+        OkHttpClient client = new HttpClientProducer().produce();
+        Arrays.stream(Instrument.values())
+                .forEach(instrument -> showProfit(client, instrument));
     }
 
     private void showProfit(OkHttpClient client, Instrument instrument) {

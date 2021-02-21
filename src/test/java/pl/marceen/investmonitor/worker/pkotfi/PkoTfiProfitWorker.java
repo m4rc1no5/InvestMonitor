@@ -31,12 +31,13 @@ public class PkoTfiProfitWorker {
 
     @Test
     void work() {
-        OkHttpClient client = new HttpClientProducer().produce();
         resultGetter = new ResultGetter();
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
 
-        Arrays.stream(Subfund.values()).forEach(subfund -> showProfit(client, subfund));
+        OkHttpClient client = new HttpClientProducer().produce();
+        Arrays.stream(Subfund.values())
+                .forEach(subfund -> showProfit(client, subfund));
     }
 
     private void showProfit(OkHttpClient client, Subfund subfund) {
