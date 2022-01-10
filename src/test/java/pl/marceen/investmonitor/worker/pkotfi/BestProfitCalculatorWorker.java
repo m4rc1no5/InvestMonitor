@@ -13,18 +13,18 @@ import java.util.Arrays;
  * @author Marcin Zaremba
  */
 public class BestProfitCalculatorWorker {
-    private static final BigDecimal MIN_ENTRY = new BigDecimal("0.5");
-    private static final BigDecimal MAX_ENTRY = new BigDecimal("1.5");
-    private static final BigDecimal ENTRY_STEP = new BigDecimal("0.1");
+    private static final BigDecimal MIN_ENTRY = new BigDecimal("0.6");
+    private static final BigDecimal MAX_ENTRY = new BigDecimal("1.6");
+    private static final BigDecimal ENTRY_STEP = new BigDecimal("0.2");
 
-    private static final BigDecimal MIN_EXIT = new BigDecimal("-0.5");
-    private static final BigDecimal MAX_EXIT = new BigDecimal("-1.5");
-    private static final BigDecimal EXIT_STEP = new BigDecimal("-0.1");
+    private static final BigDecimal MIN_EXIT = new BigDecimal("-0.6");
+    private static final BigDecimal MAX_EXIT = new BigDecimal("-1.6");
+    private static final BigDecimal EXIT_STEP = new BigDecimal("-0.2");
 
     private static final BigDecimal AMOUNT = new BigDecimal(10000);
 
     private static final int MIN_NUMBER_OF_ELEMENTS = 20;
-    private static final int MAX_NUMBER_OF_ELEMENTS = 100;
+    private static final int MAX_NUMBER_OF_ELEMENTS = 60;
     private static final int NUMBER_OF_MONTHS = 60;
     private static final int DELAY = 4;
 
