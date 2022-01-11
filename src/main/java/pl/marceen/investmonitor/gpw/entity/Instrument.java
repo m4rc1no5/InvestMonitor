@@ -8,9 +8,10 @@ import java.math.BigDecimal;
  * @author Marcin Zaremba
  */
 public enum Instrument implements InstrumentInterface {
-    ETFSP500("LU0496786574", "ETF S&P500", 20, "2.8", "-4.2", true),
-    ETFDAX("LU0252633754", "ETF DAX", 20, "1.2", "-3.8", true),
-    BETAM40TR("PLBETF400025", "ETF MWIG40TR", 35, "2.6", "-2.0", true);
+    ETFSP500("LU0496786574", "ETFSP500", 20, "2.8", "-4.2", true),
+    ETFBNDXPL("PLBETFN00018", "ETFBNDXPL", 20, "2.5", "-2.5", true),
+    ETFDAX("LU0252633754", "ETFDAX", 20, "1.2", "-3.8", true),
+    ETFBM40TR("PLBETF400025", "ETFBM40TR", 35, "2.6", "-2.2", true);
 
     private final String id;
     private final String instrumentName;

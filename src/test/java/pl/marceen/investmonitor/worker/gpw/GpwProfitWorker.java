@@ -1,11 +1,10 @@
 package pl.marceen.investmonitor.worker.gpw;
 
 import okhttp3.OkHttpClient;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.boundary.ProfitCalculator;
+import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.entity.Data;
 import pl.marceen.investmonitor.analizer.entity.Result;
 import pl.marceen.investmonitor.gpw.control.ResultGetter;
@@ -25,12 +24,11 @@ public class GpwProfitWorker {
 
     private static final BigDecimal AMOUNT = new BigDecimal(10000);
 
-    private ResultGetter resultGetter;
-    private ProfitCalculator profitCalculator;
-    private ArithmeticMovingAverage arithmeticMovingAverage;
+    private static ResultGetter resultGetter;
+    private static ProfitCalculator profitCalculator;
+    private static ArithmeticMovingAverage arithmeticMovingAverage;
 
-    @Test
-    void work() {
+    public static void main(String[] args) {
         resultGetter = new ResultGetter();
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
@@ -40,7 +38,7 @@ public class GpwProfitWorker {
                 .forEach(instrument -> showProfit(client, instrument));
     }
 
-    private void showProfit(OkHttpClient client, Instrument instrument) {
+    private static void showProfit(OkHttpClient client, Instrument instrument) {
         Result result = resultGetter.get(client, instrument, 60);
 
         BigDecimal firstValue = result.getDataList().get(0).getValue();

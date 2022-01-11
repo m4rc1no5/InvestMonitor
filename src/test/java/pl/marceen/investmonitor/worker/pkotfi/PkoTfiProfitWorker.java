@@ -25,12 +25,11 @@ public class PkoTfiProfitWorker {
 
     private static final BigDecimal AMOUNT = new BigDecimal(10000);
 
-    private ResultGetter resultGetter;
-    private ProfitCalculator profitCalculator;
-    private ArithmeticMovingAverage arithmeticMovingAverage;
+    private static ResultGetter resultGetter;
+    private static ProfitCalculator profitCalculator;
+    private static ArithmeticMovingAverage arithmeticMovingAverage;
 
-    @Test
-    void work() {
+    public static void main(String[] args) {
         resultGetter = new ResultGetter();
         profitCalculator = new ProfitCalculator();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
@@ -40,7 +39,7 @@ public class PkoTfiProfitWorker {
                 .forEach(subfund -> showProfit(client, subfund));
     }
 
-    private void showProfit(OkHttpClient client, Subfund subfund) {
+    private static void showProfit(OkHttpClient client, Subfund subfund) {
         Result result = resultGetter.get(client, subfund, 60);
 
         BigDecimal firstValue = result.getDataList().get(0).getValue();

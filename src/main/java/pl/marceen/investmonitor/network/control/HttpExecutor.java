@@ -1,5 +1,6 @@
 package pl.marceen.investmonitor.network.control;
 
+import jakarta.json.bind.JsonbBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -8,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.network.entity.NetworkException;
 
-import javax.json.bind.JsonbBuilder;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

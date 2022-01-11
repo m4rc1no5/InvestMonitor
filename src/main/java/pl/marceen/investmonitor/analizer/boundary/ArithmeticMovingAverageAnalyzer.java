@@ -3,6 +3,7 @@ package pl.marceen.investmonitor.analizer.boundary;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.marceen.investmonitor.analizer.control.ActionGetter;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
 import pl.marceen.investmonitor.analizer.entity.Data;
 import pl.marceen.investmonitor.analizer.entity.Result;
@@ -11,8 +12,10 @@ import pl.marceen.investmonitor.email.entity.EmailData;
 import pl.marceen.investmonitor.investment.entity.InstrumentInterface;
 import pl.marceen.investmonitor.network.control.HttpClientProducer;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -23,13 +26,15 @@ import java.util.stream.Collectors;
 public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterface> {
     private static final Logger logger = LoggerFactory.getLogger(ArithmeticMovingAverageAnalyzer.class);
 
-    protected final OkHttpClient httpClient;
-    protected ArithmeticMovingAverage arithmeticMovingAverage;
+    private final OkHttpClient httpClient;
+    private final ArithmeticMovingAverage arithmeticMovingAverage;
+    private final ActionGetter actionGetter;
     protected AbstractResultGetter resultGetter;
 
     public ArithmeticMovingAverageAnalyzer() {
         httpClient = new HttpClientProducer().produce();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
+        actionGetter = new ActionGetter();
     }
 
     public void calculate(Class<T> instrument, int numberOfMonths, boolean sendEmail) {
@@ -38,7 +43,7 @@ public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterf
                 .map(i -> process(i, numberOfMonths))
                 .collect(Collectors.joining("\n\n"));
 
-        logger.info("Result: {}", result);
+        logger.info("Result:\n{}", result);
 
         if (!sendEmail) {
             return;
@@ -56,20 +61,27 @@ public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterf
     private String process(InstrumentInterface instrument, int numberOfMonths) {
         Result result = resultGetter.get(httpClient, instrument, numberOfMonths);
         List<Data> dataList = arithmeticMovingAverage.calculate(result, instrument.getNumberOfElements());
+        Collections.reverse(dataList);
 
         StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add(String.format("Instrument: %s", instrument.getInstrumentName()));
-        stringJoiner.add(String.format("Entry: %s", instrument.getEntry()));
-        stringJoiner.add(String.format("Exit: %s", instrument.getExit()));
+        BigDecimal exit = instrument.getExit();
+        BigDecimal entry = instrument.getEntry();
+        stringJoiner.add(String.format("%s [%s - %s]", instrument.getInstrumentName(), exit, entry));
+        BigDecimal deviation = dataList.get(0).getDeviation();
+        stringJoiner.add(String.format("Actual deviation: %s [%s]", format(deviation), actionGetter.get(deviation, exit, entry)));
 
         dataList.stream()
-                .skip(dataList.size() - instrument.getNumberOfElements())
+                .limit(7)
                 .forEach(data -> stringJoiner.add(getRow(data)));
 
         return stringJoiner.toString();
     }
 
     private String getRow(Data data) {
-        return String.format("%s | %s | %s | %s", data.getDate(), data.getValue().setScale(2, RoundingMode.HALF_UP), data.getAverage(), data.getDeviation());
+        return String.format("%s | %s | %s | %s", data.getDate(), format(data.getValue()), format(data.getAverage()), format(data.getDeviation()));
+    }
+
+    private BigDecimal format(BigDecimal value) {
+        return value.setScale(2, RoundingMode.HALF_UP);
     }
 }

@@ -1,5 +1,6 @@
 package pl.marceen.investmonitor.email.boundary;
 
+import jakarta.json.bind.JsonbBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.config.boundary.ConfigReader;
@@ -7,7 +8,6 @@ import pl.marceen.investmonitor.config.entity.EmailConfig;
 import pl.marceen.investmonitor.email.entity.EmailData;
 import pl.marceen.investmonitor.email.entity.EmailException;
 
-import javax.json.bind.JsonbBuilder;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;

@@ -1,6 +1,5 @@
 package pl.marceen.investmonitor.worker.gpw;
 
-import org.junit.jupiter.api.Test;
 import pl.marceen.investmonitor.analizer.boundary.BestProfitCalculator;
 import pl.marceen.investmonitor.analizer.entity.BestProfitData;
 import pl.marceen.investmonitor.gpw.control.ResultGetter;
@@ -28,8 +27,7 @@ public class BestProfitCalculatorWorker {
     private static final int NUMBER_OF_MONTHS = 60;
     private static final int DELAY = 1;
 
-    @Test
-    void work() {
+    public static void main(String[] args) {
         BestProfitCalculator bestProfitCalculator = new BestProfitCalculator(
                 new ResultGetter(),
                 new BestProfitData()

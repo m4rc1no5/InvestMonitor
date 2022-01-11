@@ -15,7 +15,6 @@ public enum Subfund implements InstrumentInterface {
     BALANCED("6", "PKO Balanced Subfund (PKO Zrównoważony)", 22, "1.1", "-1.2", false),
     SMALL_AND_MID_CAP_EQUITY("8", "PKO Small and Mid-cap Equity Subfund (PKO Akcji Małych i Średnich Spółek)", 21, "0.5", "-1.0", false),
     NEW_EUROPE_EQUITY("10", "PKO New Europe Equity Subfund (PKO Akcji Nowa Europa)", 44, "0.8", "-0.9", false),
-    STRATEGIC_ALLOCATION("11", "PKO Strategic Allocation Subfund (PKO Strategicznej Alokacji)", 29, "0.9", "-0.9", false),
     BOND_PLUS("30", "PKO Bond Plus Subfund (PKO Papierów Dłużnych Plus)", 42, "0.9", "-0.8", false),
     EQUITY_PLUS("33", "PKO Equity Plus Subfund (PKO Akcji Plus)", 20, "0.9", "-0.9", false),
     GLOBAL_NATURAL_RESOURCES("34", "PKO Global Natural Resources Subfund (PKO Surowców Globalny)", 21, "1.4", "-1.0", true),
