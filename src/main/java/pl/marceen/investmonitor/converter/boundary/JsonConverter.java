@@ -1,9 +1,9 @@
 package pl.marceen.investmonitor.converter.boundary;
 
+import jakarta.json.bind.JsonbBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.json.bind.JsonbBuilder;
 import java.util.Objects;
 
 /**

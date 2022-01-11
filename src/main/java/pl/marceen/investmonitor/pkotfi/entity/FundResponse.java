@@ -1,6 +1,7 @@
 package pl.marceen.investmonitor.pkotfi.entity;
 
-import javax.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbProperty;
+
 import java.util.List;
 
 /**
