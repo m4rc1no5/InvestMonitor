@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.marceen.investmonitor.analizer.control.ActionGetter;
 import pl.marceen.investmonitor.analizer.control.ArithmeticMovingAverage;
+import pl.marceen.investmonitor.analizer.control.BestPriceCalculator;
 import pl.marceen.investmonitor.analizer.entity.Data;
 import pl.marceen.investmonitor.analizer.entity.Result;
 import pl.marceen.investmonitor.email.boundary.EmailSender;
@@ -29,12 +30,14 @@ public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterf
     private final OkHttpClient httpClient;
     private final ArithmeticMovingAverage arithmeticMovingAverage;
     private final ActionGetter actionGetter;
+    private final BestPriceCalculator bestPriceCalculator;
     protected AbstractResultGetter resultGetter;
 
     public ArithmeticMovingAverageAnalyzer() {
         httpClient = new HttpClientProducer().produce();
         arithmeticMovingAverage = new ArithmeticMovingAverage();
         actionGetter = new ActionGetter();
+        bestPriceCalculator = new BestPriceCalculator();
     }
 
     public void calculate(Class<T> instrument, int numberOfMonths, boolean sendEmail) {
@@ -67,9 +70,14 @@ public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterf
         BigDecimal exit = instrument.getExit();
         BigDecimal entry = instrument.getEntry();
         stringJoiner.add(String.format("%s [%s - %s]", instrument.getInstrumentName(), exit, entry));
-        BigDecimal deviation = dataList.get(0).getDeviation();
+        Data lastResult = dataList.get(0);
+        BigDecimal deviation = lastResult.getDeviation();
+        BigDecimal average = lastResult.getAverage();
         stringJoiner.add(String.format("Actual deviation: %s [%s]", format(deviation), actionGetter.get(deviation, exit, entry)));
+        stringJoiner.add(String.format("Best price for sell: %s PLN", format(bestPriceCalculator.calculate(average, exit))));
+        stringJoiner.add(String.format("Best price for buy: %s PLN", format(bestPriceCalculator.calculate(average, entry))));
 
+        stringJoiner.add("\nLast sessions:");
         dataList.stream()
                 .limit(7)
                 .forEach(data -> stringJoiner.add(getRow(data)));
@@ -78,7 +86,7 @@ public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterf
     }
 
     private String getRow(Data data) {
-        return String.format("%s | %s | %s | %s", data.getDate(), format(data.getValue()), format(data.getAverage()), format(data.getDeviation()));
+        return String.format("%s | %s PLN | %s PLN | %s", data.getDate(), format(data.getValue()), format(data.getAverage()), format(data.getDeviation()));
     }
 
     private BigDecimal format(BigDecimal value) {
