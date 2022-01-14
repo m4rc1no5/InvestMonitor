@@ -74,8 +74,8 @@ public abstract class ArithmeticMovingAverageAnalyzer<T extends InstrumentInterf
         BigDecimal deviation = lastResult.getDeviation();
         BigDecimal average = lastResult.getAverage();
         stringJoiner.add(String.format("Actual deviation: %s [%s]", format(deviation), actionGetter.get(deviation, exit, entry)));
-        stringJoiner.add(String.format("Best price for sell: %s PLN", format(bestPriceCalculator.calculate(average, exit))));
         stringJoiner.add(String.format("Best price for buy: %s PLN", format(bestPriceCalculator.calculate(average, entry))));
+        stringJoiner.add(String.format("Best price for sell: %s PLN", format(bestPriceCalculator.calculate(average, exit))));
 
         stringJoiner.add("\nLast sessions:");
         dataList.stream()
